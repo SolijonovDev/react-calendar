@@ -1,11 +1,11 @@
+import { Calendar } from './components/Calendar/Calendar';
+
 import './App.scss';
 
-function App() {
+export const App = () => {
   return (
     <div className="App">
-      <h2>Hello world</h2>
+      <Calendar />
     </div>
   );
-}
-
-export default App;
+};

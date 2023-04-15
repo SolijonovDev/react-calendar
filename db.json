@@ -3,6 +3,16 @@
   "posts": [
     { "id": 1, "title": "json-server", "author": "typicode" }
   ],
+   "events" : [
+    {
+      "title": "Kitob o'qish",
+      "start": "2023-04-15T01:00:00",
+      "end": "2023-04-15T01:25:00",
+      "extendedProps":{
+        "description":"Hello world"
+      }
+    }
+  ],
   "comments": [
     { "id": 1, "body": "some comment", "postId": 1 }
   ],
