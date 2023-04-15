@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 export const EventItem = ({ event }) => {
-  return <div onClick={() => console.log('cajfclick')}>{event.title} two</div>;
+  return <div>{event.title}</div>;
 };
