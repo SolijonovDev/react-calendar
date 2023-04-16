@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { useQuery } from 'react-query';
 
 import FullCalendar from '@fullcalendar/react';
@@ -24,17 +24,15 @@ export const Calendar = () => {
           plugins={[dayGridPlugin, timeGridPlugin, timelinePlugin]}
           initialView="timeGridWeek"
           headerToolbar={{
-            start: 'today,timeGridWeek,timeGridDay,dayGridMonth',
+            start: 'today,timeGridDay,timeGridWeek,dayGridMonth',
             center: 'title',
             end: 'prev next',
           }}
           scrollTime={'00:00:00'}
           events={events}
           eventClick={handleClick}
-          eventBackgroundColor="transparent"
-          eventBorderColor="red"
+          eventBackgroundColor="green"
           eventContent={EventItem}
-          selectable
         />
       )}
     </Fragment>
