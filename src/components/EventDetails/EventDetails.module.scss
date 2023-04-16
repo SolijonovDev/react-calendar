@@ -1,0 +1,38 @@
+@import '../../styles/variables';
+
+.eventDetails{
+  background-color: $color4;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  z-index: $eventDetailsPopupZindex;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .content{
+    width: 400px;
+    min-height: 200px;
+    background-color: $color1;
+    padding: 15px;
+    border-radius: 4px;
+  }
+
+  .header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .body{
+    margin-top: 40px;
+  }
+
+  .body p{
+    margin-bottom: 15px;
+    font-size: 18px;
+    font-weight: 400;
+  }
+}

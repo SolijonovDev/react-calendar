@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
+import { EventProvider } from './context/EventProvider';
 import { App } from './App';
 
 import './styles/main.scss';
@@ -11,7 +12,9 @@ const queryClient = new QueryClient();
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-      <App />
+      <EventProvider>
+        <App />
+      </EventProvider>
     </QueryClientProvider>
   </React.StrictMode>,
 );

@@ -1,23 +1,27 @@
 import React from 'react';
+import { useQueryClient } from 'react-query';
 import { MdClose } from 'react-icons/md';
 import { Api } from '../../api/event-api';
 
 import styles from './AddEventPopup.module.scss';
+import { IconButton } from './../Button/IconButton';
 
 const obj = {
-  id: 'ad9',
+  id: 'ad19',
   title: 'hi',
-  start: '2023-04-17T01:00:00',
-  end: '2023-04-17T02:00:00',
+  description: 'Test',
+  start: '2023-04-16T01:00:00',
+  end: '2023-04-17T05:00:00',
 };
 
 export const AddEventPopup = ({ handleClose }) => {
+  const queryClient = useQueryClient();
   const handleAddEvent = async () => {
     try {
       const response = await Api.addEvent(obj);
       if (response.status === 201) {
         handleClose();
-        alert('Event has added');
+        queryClient.invalidateQueries('get-events');
       } else {
         alert('Something went wrong!');
       }
@@ -34,9 +38,9 @@ export const AddEventPopup = ({ handleClose }) => {
       <div className={styles.content}>
         <div className={styles.header}>
           <h2 className={styles.title}>Add Event</h2>
-          <button className={styles.btn} onClick={handleClose}>
+          <IconButton onClick={handleClose}>
             <MdClose />
-          </button>
+          </IconButton>
         </div>
         <div className={styles.body}>
           <input placeholder="Title" required />

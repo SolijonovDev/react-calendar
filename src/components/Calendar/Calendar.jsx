@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment } from 'react';
 import { useQuery } from 'react-query';
 
 import FullCalendar from '@fullcalendar/react';
@@ -8,12 +8,14 @@ import timelinePlugin from '@fullcalendar/timeline';
 
 import { EventItem } from './EventItem';
 import { Api } from '../../api/event-api';
+import { useEventContext } from '../../context/EventProvider';
 
 export const Calendar = () => {
   const { data: events = [], loading } = useQuery('get-events', Api.fetchEvents);
+  const { setEventId } = useEventContext();
 
-  const handleClick = (value) => {
-    console.log('click', value.event.extendedProps.description);
+  const handleClick = ({ event }) => {
+    setEventId(event.id);
   };
 
   return (
