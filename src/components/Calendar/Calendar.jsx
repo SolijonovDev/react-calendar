@@ -11,7 +11,9 @@ import { Api } from '../../api/event-api';
 import { useEventContext } from '../../context/EventProvider';
 
 export const Calendar = () => {
-  const { data: events = [], loading } = useQuery('get-events', Api.fetchEvents);
+  const { data: events = [], loading } = useQuery('get-events', Api.fetchEvents, {
+    staleTime: Infinity,
+  });
   const { setEventId } = useEventContext();
 
   const handleClick = ({ event }) => {

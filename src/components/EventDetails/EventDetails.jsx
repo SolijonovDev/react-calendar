@@ -57,8 +57,8 @@ export const EventDetails = () => {
               <p>Id:{id}</p>
               <p>Title: {title}</p>
               {description && <p>Description: {description}</p>}
-              <p>Start: {start}</p>
-              <p>End: {end}</p>
+              <p>Start: {start.split('-').join(' : ')}</p>
+              <p>End: {end.split('-').join(' : ')}</p>
             </div>
           </div>
         </div>

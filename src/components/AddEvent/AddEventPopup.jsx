@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useQueryClient } from 'react-query';
 import { MdClose } from 'react-icons/md';
 import { useForm } from 'react-hook-form';
@@ -11,7 +11,6 @@ import { Api } from '../../api/event-api';
 import { IconButton } from './../Button/IconButton';
 
 import styles from './AddEventPopup.module.scss';
-import { FormInput } from './FormInput';
 
 const schema = yup.object().shape({
   title: yup.string().required(),
@@ -22,11 +21,13 @@ const schema = yup.object().shape({
 
 export const AddEventPopup = ({ handleClose }) => {
   const queryClient = useQueryClient();
+  const [status, setStatus] = useState(null);
+  const [shouldBlockButton, setShouldBlockButton] = useState(true);
 
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid, isDirty },
   } = useForm({
     resolver: yupResolver(schema),
     mode: 'onChange',
@@ -34,25 +35,34 @@ export const AddEventPopup = ({ handleClose }) => {
 
   const handleAddEvent = async (values) => {
     try {
-      console.log(values);
-      // const id = await uuidv4();
-      // const newEvent = { id, ...values };
-      // const response = await Api.addEvent(newEvent);
-
+      setStatus('pending');
+      const id = await uuidv4();
+      const newEvent = { id, ...values };
+      const response = await Api.addEvent(newEvent);
       if (response.status === 201) {
         queryClient.invalidateQueries('get-events');
         handleClose();
+        setStatus('success');
       } else {
         alert('Something went wrong!');
       }
     } catch ({ message }) {
       alert(message);
+      setStatus('error');
     }
   };
 
   const handleCancel = () => {
     handleClose();
   };
+
+  useEffect(() => {
+    if (status === 'pending' || !isDirty || !isValid) {
+      setShouldBlockButton(true);
+    } else {
+      setShouldBlockButton(false);
+    }
+  }, [status, isValid, isDirty]);
 
   return (
     <div className={styles.addEventPopup} onClick={handleCancel}>
@@ -64,19 +74,13 @@ export const AddEventPopup = ({ handleClose }) => {
           </IconButton>
         </div>
         <form onSubmit={handleSubmit(handleAddEvent)} className={styles.form}>
-          {/* <input
+          <input
             autoFocus
             className={cn({
               [styles.error]: errors.title,
             })}
             type="text"
-            {...register('title', { required: true })}
-            placeholder="Title"
-          /> */}
-          <FormInput
-            autoFocus
-            type="text"
-            {...register('title', { required: true })}
+            {...register('title')}
             placeholder="Title"
           />
           {errors.title && <p className={styles.errorText}>Title is required.</p>}
@@ -93,7 +97,7 @@ export const AddEventPopup = ({ handleClose }) => {
               [styles.error]: errors.start,
             })}
             type="date"
-            {...register('start', { required: true })}
+            {...register('start')}
             placeholder="Start date"
           />
           {errors.start && <p className={styles.errorText}>Start date is required.</p>}
@@ -102,7 +106,7 @@ export const AddEventPopup = ({ handleClose }) => {
               [styles.error]: errors.end,
             })}
             type="date"
-            {...register('end', { required: true })}
+            {...register('end')}
             placeholder="End date"
           />
           {errors.end && <p className={styles.errorText}>End date is required.</p>}
@@ -110,8 +114,8 @@ export const AddEventPopup = ({ handleClose }) => {
             <button onClick={handleCancel} className={styles.btn}>
               Cancel
             </button>
-            <button type="submit" className={styles.btn}>
-              Add
+            <button disabled={shouldBlockButton} type="submit" className={styles.btn}>
+              {status === 'pending' ? 'Sending ... ' : 'Add'}
             </button>
           </div>
         </form>

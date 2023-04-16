@@ -71,5 +71,10 @@
     &:hover{
       background-color: $color4;
     }
+
+    &:disabled{
+      background-color: rgba($color3,.4);
+      cursor: not-allowed;
+    }
   }
 }
