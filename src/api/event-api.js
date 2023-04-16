@@ -9,7 +9,7 @@ export const Api = {
     const response = await $api.post('/events', event);
     return response;
   },
-  async getOneEvent(param = "Kitob o'qish") {
+  async getOneEvent(param) {
     const { data } = await $api.get(`/events?title=${param}`)
     return data[0];
   }
